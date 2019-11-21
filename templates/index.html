@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!-- Website Homepage-->
+<html>
+    <!-- Header Area -->
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <h1>Stock and Cryptocurrency Price Checker</h1>
+        
+    </head>
+    <!-- Body Area -->
+    <body>
+        <button id='myButton' type="button">Get Price Boomer!</button>
+          <script>
+            $('#myButton').click(function() {
+                $.ajax({
+                    type:'GET',
+                    url: "{{ url_for('price')}}",
+                    dataType:"text",
+                    success: function(response){
+                        console.log(response);
+                        alert(response);
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

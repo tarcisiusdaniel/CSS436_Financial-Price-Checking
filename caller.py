@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import json
 import requests
 import yaml
@@ -16,12 +17,15 @@ def fetch_latest_BTC_JSON(config_file):
     page = requests.get(API_LINK).json()
     return page
 
-def fetch_close_prices(content):
-    prices = []
-    for key,value in content['Time Series (Digital Currency Daily)'].items():
-        prices.append(float(value['4a. close (USD)']))
-    return np.array(prices)
-    
+def parse_alphaV_JSON(raw_data):
+    # Remove meta data for now
+    raw_data.pop('Meta Data',None)
+    # Remove key name
+    df = pd.DataFrame.from_dict(raw_data['Time Series (Digital Currency Daily)'],dtype=float)
+    # Flip dates as columns into rows
+    df = df.transpose()
+    return df
+
 
 
 def main():
