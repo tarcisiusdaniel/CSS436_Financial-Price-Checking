@@ -7,21 +7,34 @@ import yaml
 def get_config():
     return yaml.safe_load(open("config.yaml"))
 
-def fetch_latest_BTC_JSON(config_file):
-    """Fetch the latest JSON data"""
+
+def is_crypto(ticker):
+    if(ticker == 'BTC' or ticker == 'LTC' or ticker == 'ETH' or \
+        ticker == 'DOGE' or ticker == 'BCH'):
+        return 'DIGITAL_CURRENCY_DAILY'
+    return 'TIME_SERIES_DAILY'
+
+
+def fetch_latest_BTC_JSON(config_file,ticker,interval):
+    """Fetch the latest JSON data
+    
+    """
     av_apikey = config_file['alpha_vantage_key']
-    av_ticker = config_file['av_ticker']
     API_LINK = 'https://www.alphavantage.co/query?' + \
-               'function=DIGITAL_CURRENCY_DAILY&' + \
-               'symbol={}&market=USD&apikey={}'.format(av_ticker,av_apikey)
+               'function={}&symbol={}&market=USD&apikey={}'.format(interval,ticker,av_apikey)
+    print('FINAL LINK = ', API_LINK)
     page = requests.get(API_LINK).json()
     return page
 
-def parse_alphaV_JSON(raw_data):
+def parse_alphaV_JSON(raw_data,interval):
     # Remove meta data for now
     raw_data.pop('Meta Data',None)
     # Remove key name
-    df = pd.DataFrame.from_dict(raw_data['Time Series (Digital Currency Daily)'],dtype=float)
+    df = None
+    if(interval == 'DIGITAL_CURRENCY_DAILY'):
+        df = pd.DataFrame.from_dict(raw_data['Time Series (Digital Currency Daily)'],dtype=float)
+    elif(interval == 'TIME_SERIES_DAILY'):
+        df = pd.DataFrame.from_dict(raw_data['Time Series (Daily)'],dtype=float)
     # Flip dates as columns into rows
     df = df.transpose()
     return df
