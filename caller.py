@@ -26,8 +26,6 @@ def parse_alphaV_JSON(raw_data):
     df = df.transpose()
     return df
 
-
-
 def main():
     config = get_config()
     contents = fetch_latest_BTC_JSON(config_file=config)

@@ -1,13 +1,21 @@
 from flask import Flask
-from flask import url_for, jsonify, render_template
+from flask import url_for 
+from flask import jsonify
+from flask import render_template
+from flask import request
+from flask import redirect
 import caller
 import numpy as np
 application = Flask(__name__)
 
 @application.route('/')
-def index():
+def index() -> "html":
     return render_template('index.html')
 
+@application.route('/obtain_ticker',methods=['GET','POST'])
+def obtain_ticker():
+    ticker_val = request.form['tickerval']
+    return redirect(url_for('index'))
 
 @application.route('/price',  methods=['GET'])
 def price():
@@ -19,7 +27,7 @@ def price():
     return msg
 
 if __name__ == "__main__":
-    debug = False
+    debug = True
     if(debug):
         application.run(port=8080, debug=True)
     elif(debug == False):

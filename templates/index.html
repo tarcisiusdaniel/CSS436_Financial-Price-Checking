@@ -9,6 +9,26 @@
     </head>
     <!-- Body Area -->
     <body>
+        <form action="/obtain_ticker" method="POST">
+            <input type="text" name="tickerval" placeholder="Ticker">
+            <input type="submit" id="action" value="Send!">
+            <!-- <button id='tickerSetButton' type="button">Set Ticker</button> -->
+            <!-- <script>
+                $('#tickerSetButton').click(function() {
+                    $.ajax({
+                        type:'POST',
+                        url: "{{ url_for('obtain_ticker') }}",
+                        dataType:"text",
+                        success: function(response){
+                            console.log(response);
+                            alert(response);
+                        }
+                    });
+                });
+            </script> -->
+        </form>
+
+        <!-- Get Price Button -->
         <button id='myButton' type="button">Get Price!</button>
           <script>
             $('#myButton').click(function() {
@@ -23,5 +43,6 @@
                 });
             });
         </script>
+
     </body>
 </html>
