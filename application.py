@@ -52,11 +52,14 @@ def price():
     data_df = caller.parse_alphaV_JSON(contents,ticker_interval)
 
     close_prices = None
+    msg = None
     if(ticker_interval == 'DIGITAL_CURRENCY_DAILY'):
         close_prices = np.array(data_df['4a. close (USD)'].tolist())
+        msg =  jsonify({"Current_Price": close_prices[0]})
     else:
         close_prices = np.array(data_df['4. close'].tolist())
-    msg =  jsonify({"Current_Price": close_prices[-1]})
+        msg =  jsonify({"Current_Price": close_prices[-1]})
+    
     return msg
 
 if __name__ == "__main__":

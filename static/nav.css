@@ -1,0 +1,27 @@
+body{margin:0;}
+
+.navBar{
+  /*Removes Bullet Points from List Objects from navBar*/
+  list-style: none;
+  background-color: #292D38;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  text-align: center;
+}
+
+/*Attributes for the Line Objects*/
+li{
+  display: inline-block;  /*Makes the list horizontal*/
+  margin-left: 70px;      /*Defines the space between - 70px*/
+
+}
+
+nav a{
+  text-decoration: none;
+  color: white;
+  font-family: 'Karla';
+}
+
+nav a:hover{
+  color: green;
+}

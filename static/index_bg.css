@@ -1,0 +1,28 @@
+body{
+    background-color: #252730;
+}
+/*Title Header*/
+h1 {
+    font-family: Dosis;
+    font-size: 250%;
+    color: white;
+}
+h2 {
+    font-family: 'Karla';
+    font-size: 290%;
+    color: white;
+}
+h3 {
+    font-family: 'Karla';
+    font-size: 200%;
+    color: white;
+    }
+img{
+    /*Crops the image into a circle*/
+    border-radius: 50%;
+    width: 500px;
+}
+li{
+    font-family: "Karla";
+    color: white;
+}
