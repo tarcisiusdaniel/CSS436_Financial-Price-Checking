@@ -6,6 +6,8 @@ from flask import request
 from flask import redirect
 import caller
 import numpy as np
+import re
+import codecs
 application = Flask(__name__)
 
 # --- Global Variables ---
@@ -59,8 +61,22 @@ def price():
     else:
         close_prices = np.array(data_df['4. close'].tolist())
         msg =  jsonify({"Current_Price": close_prices[-1]})
-    
+    update_graph(ticker_val)
+    render_template('index.html')
     return msg
+
+def update_graph(ticker):
+    print('Ticker is = ', ticker)
+    if(caller.is_cryptocurrency(ticker)):
+        ticker = ticker + 'USD'
+    print('Now the ticker is = ', ticker)
+    exchange_name = caller.get_index(ticker)
+    homepage =  codecs.open("templates/index.html",'rb+',encoding='utf-8').read()
+    pattern = re.compile(r'"symbol": "\w+:\w+"')
+    test = re.sub(pattern,'"symbol": '+'"'+exchange_name+":"+ticker+'"',homepage)
+    f = codecs.open("templates/index.html",'w+',encoding='utf-8')
+    f.write(test)
+    pass
 
 if __name__ == "__main__":
     debug = True
