@@ -27,6 +27,10 @@ def obtain_ticker():
     ticker_val = request.form['tickerval']
     return redirect(url_for('index'))
 
+@application.route('/test_method',  methods=['GET'])
+def test_method():
+    return jsonify({"Bruh":100})
+
 @application.route('/price',  methods=['GET'])
 def price():
     config = caller.get_config()

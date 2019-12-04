@@ -16,7 +16,7 @@
             <div class="navBar">
             <li><a href="index.html">Price Checker</a></li>
             <li>Contact Us</a></li>
-            <li>Login/Sign Up</a></li>
+            <li><a href="login_page.html">Login/Sign Up</a></li>
             </div>
         </nav>
 
@@ -40,7 +40,7 @@
             $('#myButton').click(function() {
                 $.ajax({
                     type:'GET',
-                    url: "{{ url_for('price')}}",
+                    url: "{{ url_for('test_method')}}",
                     dataType:"text",
                     success: function(response){
                         console.log(response);
@@ -67,7 +67,7 @@
         {
             "width": 980,
             "height": 610,
-            "symbol": ":DOGEUSD",
+            "symbol": "NASDAQ:AAPL",
             "interval": "D",
             "timezone": "Etc/UTC",
             "theme": "Dark",
@@ -79,6 +79,9 @@
             "container_id": "tradingview_8ae14"
         }
         );
+        setInterval(function(){
+            createchart()
+            }, 1000);
         </script>
         </div>
         <!-- TradingView Widget END -->
