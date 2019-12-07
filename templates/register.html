@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div style="text-align: center;">
+        <div class="content-section">
+            <ul><h1>Sign Up</h1></ul>
+            <form method="POST" action="">
+                {{ form.hidden_tag() }}
+                <ul class="form-group">
+                    {% if form.username.errors %}
+                        {{ form.username(placeholder = "Username") }}
+                        {% for error in form.username.errors %}
+                            <br><span style="color: white">{{ error }}</span></br>
+                        {% endfor %}
+                    {% else %}
+                        {{ form.username(placeholder = "Username") }}
+                    {% endif %}
+                </ul>
+                <ul class="form-group">
+                    {% if form.password.errors %}
+                        {{ form.password(placeholder = "Password") }}
+                        {% for error in form.password.errors %}
+                            <br><span style="color: white">{{ error }}</span></br>
+                        {% endfor %}
+                    {% else %}
+                        {{ form.password(placeholder = "Password") }}
+                    {% endif %}
+                </ul>
+                <ul class="form-group">
+                    {% if form.phone_number.errors %}
+                        {{ form.phone_number(placeholder = "Phone Number") }}
+                        {% for error in form.phone_number.errors %}
+                            <br><span style="color: white">{{ error }}</span></br>
+                        {% endfor %}
+                    {% else %}
+                        {{ form.phone_number(placeholder = "Phone Number") }}
+                    {% endif %}
+                </ul>
+                <ul class="form-group">
+                    {{ form.submit }}
+                </ul>
+                <ul>
+                    <a href="/login">Already have an account?</a>
+                </ul>
+            </form>
+        </div>
+    </div>
+{% endblock %}

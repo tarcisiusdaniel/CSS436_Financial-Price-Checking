@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!-- Website Homepage-->
+<html>
+<!-- Header Area -->
+<head>
+    <!-- Getting Fonts from Google Fonts API -->
+    {% if title %}
+        <title>Stock/Crypto Price - {{title}}</title>
+    {% else %}
+        <title>Stock/Crypto Price</title>
+    {% endif %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dosis:800">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla">
+
+    <link href="../static/index_bg.css" rel="stylesheet" type="text/css">
+
+    <!-- Linking External CSS File for Navigation Bar -->
+    <link href="../static/nav.css" rel="stylesheet" type="text/css">
+    <!-- Creation of Top Navigation Bar -->
+    <nav>
+        <div class="navBar">
+
+            <li><a href="{{url_for('index')}}">Price Checker</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{url_for('logout')}}">Logout</a></li>
+                <li><a href="{{url_for('account')}}">Account</a></li>
+            {% else %}
+            <li><a href="{{url_for('login')}}">Login</a></li>
+            <li><a href="{{url_for('register')}}">Sign Up</a></li>
+            {% endif %}
+        </div>
+    </nav>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+<!-- Body Area -->
+{% with messages  = get_flashed_messages(with_categories = true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <h3>{{ message }}</h3>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+{% block content %} {% endblock %}
+<body>
+
+</body>
+</html>
