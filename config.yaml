@@ -1,4 +1,10 @@
+aws_region : us-west-2
 alpha_vantage_key : SAITMI5ZUMGEKGKY
 av_ticker : BTC
 aws_access_key : <key here>
 aws_secret_key : <secret here>
+
+
+#### SNS Texting Credentials #####
+sns_access_key : AKIA3X5E4PGQKNS35RGT
+sns_secret_key : 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

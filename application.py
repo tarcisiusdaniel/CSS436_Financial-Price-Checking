@@ -31,10 +31,11 @@ def register() -> "html":
         if form.validate_on_submit():
             user = authenticater.User(form.username.data)
             if user.registerUser(form.password.data, form.phone_number.data):
-                flash(f'Account Created for {form.username.data}', 'success')
+                success_status = 'Account Created for {}'.format(form.username.data)
+                flash(success_status, 'success')
                 return redirect(url_for('login'))
             else:
-                flash(f'Account already exists, please choose a different username', 'failed')
+                flash('Account already exists, please choose a different username', 'failed')
         return render_template('register.html', title='SignUp', form=form)
 
 
@@ -48,17 +49,17 @@ def login() -> "html":
             user = authenticater.User(form.username.data)
             usersession = user.get(form.username.data)
             if user.loginUser(form.password.data):
-                flash(f'You have been logged in!', 'success')
+                flash('You have been logged in!', 'success')
                 login_user(usersession, remember=form.remember.data)
                 return redirect(url_for('index'))
             else:
-                flash(f'Incorrect username or password', 'failed')
+                flash('Incorrect username or password', 'failed')
         return render_template("login_page.html", title='Login', form=form)
 
 @application.route('/logout/')
 def logout():
     logout_user()
-    flash(f'You have been logged out', 'success')
+    flash('You have been logged out', 'success')
     return redirect(url_for('index'))
 
 @application.route('/account/')

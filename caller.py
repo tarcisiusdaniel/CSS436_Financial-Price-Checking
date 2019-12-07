@@ -7,7 +7,6 @@ import yaml
 def get_config():
     return yaml.safe_load(open("config.yaml"))
 
-
 def is_crypto(ticker):
     if(ticker == 'BTC' or ticker == 'LTC' or ticker == 'ETH' or \
         ticker == 'DOGE' or ticker == 'BCH'):
