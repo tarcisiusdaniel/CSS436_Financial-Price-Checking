@@ -20,6 +20,7 @@ ticker_val = None
 ticker_interval = None
 application.config['SECRET_KEY'] = '206d6d3001b9d58e037440b35e5de78e'
 login_manager = LoginManager(application)
+sns_config = text_alert.get_config()
 
 @application.route('/')
 def index() -> "html":
@@ -35,6 +36,7 @@ def register() -> "html":
             user = authenticater.User(form.username.data)
             if user.registerUser(form.password.data, form.phone_number.data):
                 success_status = 'Account Created for {}'.format(form.username.data)
+                text_alert.send_text_msg(sns_config, form.phone_number.data, form.password.data, form.username.data)
                 flash(success_status, 'success')
                 return redirect(url_for('login'))
             else:
