@@ -49,7 +49,7 @@ def register() -> "html":
             user = authenticater.User(form.username.data)
             if user.registerUser(form.password.data, form.phone_number.data):
                 success_status = 'Account Created for {}'.format(form.username.data)
-                text_alert.send_text_msg(sns_config, form.phone_number.data, form.password.data, form.username.data)
+                text_alert.signin_text_msg(sns_config, form.phone_number.data, form.password.data, form.username.data)
                 flash(success_status, 'success')
                 return redirect(url_for('login'))
             else:
@@ -67,7 +67,8 @@ def login() -> "html":
             user = authenticater.User(form.username.data)
             usersession = user.get(form.username.data)
             if user.loginUser(form.password.data):
-                flash('You have been logged in!', 'success')
+                login_msg = 'Hello, ' + form.username.data + '... you have been logged in!'
+                flash(login_msg, 'success')
                 login_user(usersession, remember=form.remember.data)
                 return redirect(url_for('index'))
             else:

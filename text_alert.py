@@ -4,7 +4,7 @@ import yaml
 def get_config():
     return yaml.safe_load(open("config.yaml"))
 
-def send_text_msg(config,phone_num,password,username):
+def signin_text_msg(config,phone_num,password,username):
     sns_client = boto3.client(
         'sns',
         aws_access_key_id=config['sns_access_key'],
