@@ -4,6 +4,9 @@ av_ticker : BTC
 aws_access_key : <key here>
 aws_secret_key : <secret here>
 
+#### DB Access Creds ####
+db_access_key : AKIAU2ZUMUSZCVIVEQEB
+db_secret_access_key : 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
 
 #### SNS Texting Credentials #####
 sns_access_key : AKIA3X5E4PGQKNS35RGT
