@@ -18,13 +18,26 @@ global ticker_val
 global ticker_interval
 ticker_val = None
 ticker_interval = None
-application.config['SECRET_KEY'] = '206d6d3001b9d58e037440b35e5de78e'
+application.config['SECRET_KEY'] = caller.get_config()['app_secret']
 login_manager = LoginManager(application)
 sns_config = text_alert.get_config()
 
 @application.route('/')
 def index() -> "html":
-    return render_template('index.html')
+    data = {"ticker":"BTCUSD","exchange":"COINBASE"}
+    return render_template('index.html',data=data)
+
+@application.route('/obtain_ticker', methods=['GET', 'POST'])
+def obtain_ticker():
+    global ticker_val
+    ticker_val = request.form['tickerval']
+    exchange_name = caller.get_index(ticker_val)
+    if (caller.is_cryptocurrency(ticker_val)):
+        crypto_ticker = ticker_val + 'USD'
+    if(exchange_name == "New York Stock Exchange"):
+        exchange_name = "NYSE"
+    data = {"ticker" : ticker_val, "exchange" : exchange_name}
+    return render_template('index.html',data=data)#redirect(url_for('index'))
 
 @application.route('/register/', methods=['GET', 'POST'])
 def register() -> "html":
@@ -75,13 +88,6 @@ def account() -> "html":
         return redirect(url_for('index'))
 
 
-@application.route('/obtain_ticker', methods=['GET', 'POST'])
-def obtain_ticker():
-    global ticker_val
-    ticker_val = request.form['tickerval']
-    return redirect(url_for('index'))
-
-
 @application.route('/test_method', methods=['GET'])
 def test_method():
     return jsonify({"Bruh": 100})
@@ -96,7 +102,6 @@ def price():
         ticker_val = config['av_ticker']
 
     if (ticker_val is not None):
-
         ticker_interval = caller.is_crypto(ticker_val)
     else:
         # global ticker_interval
@@ -112,23 +117,55 @@ def price():
 
     data_df = caller.parse_alphaV_JSON(contents, ticker_interval)
 
+    # Link
+    link = formulate_TV_link(ticker_val)
+
     close_prices = None
     msg = None
     if (ticker_interval == 'DIGITAL_CURRENCY_DAILY'):
         close_prices = np.array(data_df['4a. close (USD)'].tolist())
-        msg = jsonify({"Current_Price": close_prices[0]})
+        msg = jsonify(
+            {
+                "Current_Price": close_prices[0],
+                "Link" : link
+            }
+        )
     else:
         close_prices = np.array(data_df['4. close'].tolist())
-        msg = jsonify({"Current_Price": close_prices[-1]})
-    update_graph(ticker_val)
-    render_template('index.html')
+        msg = jsonify(
+            {
+                "Current_Price": close_prices[-1],
+                "More Information: " : link # Link here
+            
+            }
+        )
+    print(msg)
+    #update_graph(ticker_val)
+    data = {"ticker":"BTCUSD","exchange":"COINBASE"}
+    render_template('index.html',data=data)
     return msg
+
+def formulate_TV_link(ticker):
+    cyrpto_ticker = None
+    if (caller.is_cryptocurrency(ticker)):
+        crypto_ticker = ticker + 'USD'
+        link = "https://www.tradingview.com/symbols/{}/".format(crypto_ticker)
+        return link
+    else:
+        exchange_name = caller.get_index(ticker)
+        if(exchange_name == "New York Stock Exchange"):
+            exchange_name = "NYSE"
+        print(exchange_name)
+        link = "https://www.tradingview.com/symbols/{}-{}/".format(exchange_name,ticker)
+        return link
+    
 
 @login_manager.user_loader
 def load_user (user_id):
     return authenticater.User.get(authenticater.User(user_id), user_id)
 
 @application.route('/')
+@application.route('/home/')
 def update_graph(ticker):
     print('Ticker is = ', ticker)
     if (caller.is_cryptocurrency(ticker)):

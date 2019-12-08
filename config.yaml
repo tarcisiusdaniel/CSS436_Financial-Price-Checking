@@ -4,6 +4,9 @@ av_ticker : BTC
 aws_access_key : <key here>
 aws_secret_key : <secret here>
 
+### App Secret ###
+app_secret : 206d6d3001b9d58e037440b35e5de78e
+
 #### DB Access Creds ####
 db_access_key : AKIAU2ZUMUSZCVIVEQEB
 db_secret_access_key : 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

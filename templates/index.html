@@ -34,25 +34,31 @@
 
             <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
             <script type="text/javascript">
-            new TradingView.widget(
-            {
-                "width": 980,
-                "height": 610,
-                "symbol": "NASDAQ:TSLA",
-                "interval": "D",
-                "timezone": "Etc/UTC",
-                "theme": "Dark",
-                "style": "1",
-                "locale": "en",
-                "toolbar_bg": "#f1f3f6",
-                "enable_publishing": false,
-                "allow_symbol_change": true,
-                "container_id": "tradingview_8ae14"
-            }
-            );
-            setInterval(function(){
-                createchart()
-                }, 1000);
+				var ticker_data = {{ data | tojson }}
+				var ticker = ticker_data.ticker;
+				var exchange = ticker_data.exchange;
+				//alert("here is the ticker = " + ticker + ' ---> ' + exchange);
+				var item = exchange.concat(':',ticker);
+
+				new TradingView.widget(
+				{
+					"width": 980,
+					"height": 610,
+					"symbol": item,
+					"interval": "D",
+					"timezone": "Etc/UTC",
+					"theme": "Dark",
+					"style": "1",
+					"locale": "en",
+					"toolbar_bg": "#f1f3f6",
+					"enable_publishing": false,
+					"allow_symbol_change": true,
+					"container_id": "tradingview_8ae14"
+				}
+				);
+				setInterval(function(){
+					createchart()
+					}, 1000);
             </script>
             </div>
             <!-- TradingView Widget END -->
