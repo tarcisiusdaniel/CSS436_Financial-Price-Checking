@@ -6,6 +6,10 @@ from forms import RegistrationForm, LoginFrom
 import authenticater
 import re
 import codecs
+from apscheduler.schedulers.background import BackgroundScheduler
+import text_alert
+import datetime
+import atexit
 
 application = Flask(__name__)
 
@@ -136,10 +140,19 @@ def update_graph(ticker):
     f.write(test)
     pass
 
+def send_text():
+    config = caller.get_config()
+    #text_alert.send_text_msg(config,'+14257700031','app_test text')
+    print('test to console')
 
 if __name__ == "__main__":
     debug = True
     if (debug):
-        application.run(port=8080, debug=True)
+        scheduler = BackgroundScheduler()
+        scheduler.add_job(func=send_text, trigger="interval", seconds=30)
+        scheduler.start()
+        application.run(port=8080, debug=True,use_reloader=False)
     elif (debug == False):
         application.run(host="0.0.0.0")
+    # Shut down the scheduler when exiting the app
+    atexit.register(lambda: scheduler.shutdown())
