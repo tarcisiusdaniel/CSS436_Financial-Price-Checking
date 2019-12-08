@@ -37,7 +37,7 @@ def register() -> "html":
             user = authenticater.User(form.username.data)
             if user.registerUser(form.password.data, form.phone_number.data):
                 success_status = 'Account Created for {}'.format(form.username.data)
-                text_alert.send_text_msg(sns_config, form.phone_number.data, form.password.data, form.username.data)
+                text_alert.signin_text_msg(sns_config, form.phone_number.data, form.password.data, form.username.data)
                 flash(success_status, 'success')
                 return redirect(url_for('login'))
             else:
