@@ -22,7 +22,6 @@ application.config['SECRET_KEY'] = '206d6d3001b9d58e037440b35e5de78e'
 login_manager = LoginManager(application)
 
 @application.route('/')
-@application.route('/home/')
 def index() -> "html":
     return render_template('index.html')
 
@@ -127,6 +126,7 @@ def price():
 def load_user (user_id):
     return authenticater.User.get(authenticater.User(user_id), user_id)
 
+@application.route('/')
 def update_graph(ticker):
     print('Ticker is = ', ticker)
     if (caller.is_cryptocurrency(ticker)):
@@ -146,13 +146,16 @@ def send_text():
     print('test to console')
 
 if __name__ == "__main__":
-    debug = True
+    debug = False
     if (debug):
         scheduler = BackgroundScheduler()
         scheduler.add_job(func=send_text, trigger="interval", seconds=30)
         scheduler.start()
         application.run(port=8080, debug=True,use_reloader=False)
     elif (debug == False):
+        scheduler = BackgroundScheduler()
+        scheduler.add_job(func=send_text, trigger="interval", seconds=30)
+        scheduler.start()
         application.run(host="0.0.0.0")
     # Shut down the scheduler when exiting the app
     atexit.register(lambda: scheduler.shutdown())

@@ -3,10 +3,19 @@ import botocore
 from flask_bcrypt import Bcrypt
 from flask_login import UserMixin
 from application import login_manager
+import yaml
+
+def get_config():
+    return yaml.safe_load(open("config.yaml"))
+
+config = get_config()
 
 bCrypt = Bcrypt()
-table = boto3.resource('dynamodb', region_name='us-west-2').Table('Accounts')
-
+table = boto3.resource(
+    'dynamodb',
+    aws_access_key_id=config['db_access_key'],
+    aws_secret_access_key=config['db_secret_access_key'],
+    region_name='us-west-2').Table('Accounts')
 
 class User(UserMixin):
     def __init__(self, username):

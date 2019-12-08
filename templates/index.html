@@ -11,7 +11,7 @@
                 $('#myButton').click(function() {
                     $.ajax({
                         type:'GET',
-                        url: "{{ url_for('test_method')}}",
+                        url: "{{ url_for('price')}}",
                         dataType:"text",
                         success: function(response){
                             console.log(response);
@@ -38,7 +38,7 @@
             {
                 "width": 980,
                 "height": 610,
-                "symbol": "NASDAQ:AAPL",
+                "symbol": "NASDAQ:TSLA",
                 "interval": "D",
                 "timezone": "Etc/UTC",
                 "theme": "Dark",
