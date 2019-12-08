@@ -54,7 +54,8 @@ def login() -> "html":
             user = authenticater.User(form.username.data)
             usersession = user.get(form.username.data)
             if user.loginUser(form.password.data):
-                flash('You have been logged in!', 'success')
+                login_msg = 'Hello, ' + form.username.data + '... you have been logged in!'
+                flash(login_msg, 'success')
                 login_user(usersession, remember=form.remember.data)
                 return redirect(url_for('index'))
             else:
